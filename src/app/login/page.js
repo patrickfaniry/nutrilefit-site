@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import auth from "@/lib/firebase/firebase.auth";
 
@@ -8,6 +8,13 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  if (!hasMounted) return null; // ✅ Évite le rendering côté serveur
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -15,7 +22,7 @@ export default function LoginPage() {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      window.location.href = "/admin"; // ✅ Redirection vers le panneau admin
+      window.location.href = "/admin";
     } catch (err) {
       setError("Email ou mot de passe incorrect.");
     }
