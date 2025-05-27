@@ -1,7 +1,6 @@
 // eslint.config.mjs
+import { next } from "@next/eslint-plugin-next";
 
-const eslintConfig = {
-  extends: ["next/core-web-vitals"],
-};
-
-export default eslintConfig;
+export default [
+  ...next.configs["recommended"],
+];

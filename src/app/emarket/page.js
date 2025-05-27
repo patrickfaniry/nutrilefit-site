@@ -1,5 +1,12 @@
+"use client";
+
+import dynamic from "next/dynamic";
 import { Suspense } from "react";
-import SearchWrapper from "./SearchWrapper";
+
+// Chargement dynamique de la section avec useSearchParams sans SSR
+const ProductListWrapper = dynamic(() => import("./SearchWrapper"), {
+  ssr: false,
+});
 
 export default function EMarketPage() {
   return (
@@ -13,8 +20,8 @@ export default function EMarketPage() {
         </p>
       </div>
 
-      <Suspense fallback={<div>Chargement des produits...</div>}>
-        <SearchWrapper />
+      <Suspense fallback={<div>Chargement...</div>}>
+        <ProductListWrapper />
       </Suspense>
     </main>
   );
