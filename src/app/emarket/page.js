@@ -1,12 +1,7 @@
-"use client";
-
-import { useSearchParams } from "next/navigation";
-import ProductList from "../components/ProductList";
+import { Suspense } from "react";
+import SearchWrapper from "./SearchWrapper";
 
 export default function EMarketPage() {
-  const searchParams = useSearchParams();
-  const initialType = searchParams.get("type") || "Tous";
-
   return (
     <main className="min-h-screen bg-white py-20 px-6">
       <div className="max-w-7xl mx-auto text-center mb-12">
@@ -18,7 +13,9 @@ export default function EMarketPage() {
         </p>
       </div>
 
-      <ProductList initialType={initialType} />
+      <Suspense fallback={<div>Chargement des produits...</div>}>
+        <SearchWrapper />
+      </Suspense>
     </main>
   );
 }

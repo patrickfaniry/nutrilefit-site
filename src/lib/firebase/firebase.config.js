@@ -10,6 +10,11 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-const app = !getApps().length ? initializeApp(firebaseConfig) : getApps()[0];
+let app = null;
+
+// ✅ Protéger l'initialisation pour qu'elle ne s'exécute que dans le navigateur (évite l’erreur de prerendering)
+if (typeof window !== "undefined") {
+  app = !getApps().length ? initializeApp(firebaseConfig) : getApps()[0];
+}
 
 export default app;
