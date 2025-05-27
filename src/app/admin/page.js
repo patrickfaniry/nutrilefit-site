@@ -1,37 +1,28 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { onAuthStateChanged } from "firebase/auth";
-import auth from "@/lib/firebase/firebase.auth";
-import ProductForm from "./ProductForm";
 
 export default function AdminPage() {
-  const [user, setUser] = useState(null);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) setUser(user);
-      else window.location.href = "/login"; // Redirige si non connecté
-    });
-
-    return () => unsubscribe();
+    // S'assurer que le composant est bien monté côté client
+    setIsMounted(true);
   }, []);
 
-  if (!user) return null;
+  if (!isMounted) {
+    return null; // évite l’erreur "window is not defined" lors du build
+  }
 
   return (
-    <main className="min-h-screen p-8 bg-gray-100">
-      <div className="max-w-4xl mx-auto bg-white rounded-lg shadow p-6">
-        <h1 className="text-3xl font-bold mb-6">Panneau d’administration</h1>
-
-        <p className="mb-4 text-sm text-gray-600">
-          Connecté en tant que : <strong>{user.email}</strong>
+    <main className="min-h-screen py-20 px-6 bg-gray-100">
+      <div className="max-w-4xl mx-auto text-center">
+        <h1 className="text-4xl font-bold text-gray-800 mb-6">Espace Admin</h1>
+        <p className="text-gray-600">
+          Bienvenue dans le panneau d’administration de Nutr’IleFit. Cette
+          section est réservée aux administrateurs.
         </p>
-
-        <div className="border-t pt-4">
-          <h2 className="text-xl font-semibold mb-4">🔧 Ajouter un produit</h2>
-          <ProductForm /> {/* 👈 Formulaire intégré ici */}
-        </div>
+        {/* Tu peux ajouter ici des boutons, composants de gestion, stats, etc. */}
       </div>
     </main>
   );
