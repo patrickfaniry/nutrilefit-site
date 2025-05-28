@@ -1,6 +1,14 @@
 // eslint.config.mjs
-import { next } from "@next/eslint-plugin-next";
+import pluginNext from "@next/eslint-plugin-next";
 
 export default [
-  ...next.configs["recommended"],
+  {
+    name: "next/core-web-vitals",
+    plugins: {
+      "@next/next": pluginNext,
+    },
+    rules: {
+      ...pluginNext.configs["core-web-vitals"].rules,
+    },
+  },
 ];
